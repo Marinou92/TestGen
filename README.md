@@ -5,7 +5,7 @@ Scan your repo, see what is testable, and install a minimal Vitest foundation.
 **TestGen Lite is free on GitHub.**  
 It helps you understand your testing surface and get the runner in place.
 
-**TestGen Full is available on Gumroad for $29:**  
+**TestGen Full is available on Gumroad for $39:**  
 [marinedep.gumroad.com/l/testgen](https://marinedep.gumroad.com/l/testgen)
 
 The public version is intentionally limited.
@@ -148,7 +148,7 @@ That gap is deliberate.
 Lite gives you visibility and setup.
 Full gives you the actual QA acceleration.
 
-## TestGen Full ($29 — Gumroad)
+## TestGen Full ($39 — Gumroad)
 
 Get it here: [marinedep.gumroad.com/l/testgen](https://marinedep.gumroad.com/l/testgen)
 
