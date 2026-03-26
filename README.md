@@ -1,20 +1,39 @@
 # TestGen Lite
 
-Find what is testable in a Next.js or React repo, then set up a minimal Vitest foundation.
+See what is testable in a Next.js or React repo, then install a minimal Vitest foundation.
 
-This is the public lite version of TestGen.
+TestGen Lite is the public, free version of TestGen.
 
-It is designed to give you a fast win:
+It helps you answer two questions fast:
 
-- scan a repo and surface the main testable targets
-- show how much logic exists versus how few tests are present
-- drop in a clean Vitest setup
+1. What in this repo is actually worth testing?
+2. How do I get a clean Vitest setup in place without overengineering it?
 
-It deliberately stops before test generation.
+It stops there on purpose.
 
-## What You Get
+The paid version is the one that generates the actual tests.
 
-### 1. Repo Scan
+## What It Does
+
+- scans a repo and counts obvious test targets
+- surfaces the biggest testing gap in plain language
+- gives you a minimal Vitest config
+- gives you a basic setup file for RTL, `fetch`, and test env defaults
+
+## What It Does Not Do
+
+- generate tests
+- generate Server Action tests
+- generate API route tests
+- generate form component tests
+- add Playwright
+- add CI workflows
+- run coverage
+- ship the internal reference files and adapters from the full product
+
+That gap is the product boundary.
+
+## Quick Example
 
 Run:
 
@@ -22,7 +41,7 @@ Run:
 python3 scripts/scan_testable.py /path/to/repo
 ```
 
-You get a quick summary like:
+Example output:
 
 ```text
 Repo: my-app
@@ -33,34 +52,108 @@ Existing tests: 0
 Largest gap: High-value application logic exists, but no test suite is present yet.
 ```
 
-### 2. Basic Vitest Setup
+That is enough to tell you whether the repo is:
+
+- basically untested
+- already partially covered
+- worth pushing into a full test-generation workflow
+
+## Installation
+
+You can use this repo in three ways.
+
+### 1. Manual Use
+
+Clone the repo:
+
+```bash
+git clone https://github.com/Marinou92/TestGen.git
+cd TestGen
+```
+
+Run the scanner:
+
+```bash
+python3 scripts/scan_testable.py /path/to/your/repo
+```
 
 Copy the templates:
 
 ```bash
-cp templates/vitest.config.ts /path/to/repo/vitest.config.ts
-cp templates/setup.ts /path/to/repo/setup.ts
+cp templates/vitest.config.ts /path/to/your/repo/vitest.config.ts
+cp templates/setup.ts /path/to/your/repo/setup.ts
 ```
 
-Then install your dependencies and wire the scripts you want in `package.json`.
+Install a minimal dependency set in your project.
 
-## What The Lite Version Does Not Do
+For `npm`:
 
-TestGen Lite does **not**:
+```bash
+npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
 
-- generate tests for your business logic
-- generate tests for Server Actions
-- generate tests for API routes
-- generate tests for form components
-- add Playwright flows
-- add CI workflows
-- add coverage automation
-- include the internal reference packs and adapters used in the full version
+For `pnpm`:
 
-That gap is intentional.
+```bash
+pnpm add -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
 
-The lite repo helps you see the problem and get the runner in place.
-The full version solves the expensive part: actually generating the useful tests.
+For `yarn`:
+
+```bash
+yarn add -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
+
+Then add scripts in `package.json`:
+
+```json
+{
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest --run"
+  }
+}
+```
+
+### 2. Use With Codex
+
+`SKILL.md` is included so this repo can be used directly as a Codex skill.
+
+Typical prompt:
+
+```text
+Use the TestGen Lite skill in this repo to scan my codebase and set up Vitest, but do not generate tests.
+```
+
+### 3. Use With Other AI Coding Tools
+
+Even if your tool does not support `SKILL.md`, the repo is still usable.
+
+The scanner and templates are tool-agnostic.
+
+You can ask any coding agent something like:
+
+```text
+Use this repository as guidance. Run scripts/scan_testable.py on my repo, summarize what is testable, then copy templates/vitest.config.ts and templates/setup.ts into my project without generating tests.
+```
+
+This works with:
+
+- Codex
+- Claude Code
+- ChatGPT coding sessions
+- Cursor or similar agent workflows
+- manual developer use
+
+## Suggested Setup Flow
+
+1. Run the scanner.
+2. Check whether the repo has a meaningful amount of testable logic.
+3. Copy the Vitest templates.
+4. Install the minimum dependencies.
+5. Stop.
+
+If you now want the tests written for you, that is the handoff point to the full product.
 
 ## Lite vs Full Version
 
@@ -81,12 +174,6 @@ The full version solves the expensive part: actually generating the useful tests
 | Playwright patterns | no | yes |
 | CI templates | no | yes |
 
-## Who This Is For
-
-- developers who want to know what is testable before committing to a full test push
-- teams that need a lightweight Vitest starting point
-- people evaluating whether the full product would save them real time
-
 ## Repo Structure
 
 ```text
@@ -101,31 +188,39 @@ testgen/
 └── LICENSE
 ```
 
+## Who This Is For
+
+- developers who want quick visibility on testable surface area
+- teams that want a lightweight Vitest setup without buying into a full framework
+- buyers evaluating whether the full version would save them enough time
+
 ## Positioning
 
-TestGen Lite is a lead-in product, not the whole system.
+TestGen Lite is intentionally useful, but incomplete.
 
-Use it when you want:
+It gives you:
 
-- visibility on testable surface area
-- a fast setup for Vitest
-- a simple way to evaluate the idea
+- visibility
+- setup
+- momentum
 
-Use the full version when you want:
+It does not give you:
 
-- the actual tests written for you
-- prioritization of the highest-value targets
-- bug-finding from failing tests
-- a proper audit and findings workflow
+- the real test-writing work
+- prioritized coverage expansion
+- bug-finding via generated failing tests
+- structured audit and findings outputs
 
-## Codex Skill
+That is what the full version is for.
 
-`SKILL.md` is included so the repo can be used directly as a Codex skill.
+## Why The Repo Is Minimal
 
-The skill behavior is intentionally narrow:
+There is no fake “AI magic” here.
 
-- scan
-- set up
-- stop
+This repo does not pretend that:
 
-No fake “AI magic”, no empty test generation, no pretending that setup equals coverage.
+- setup equals coverage
+- counting files equals testing
+- a template equals a finished QA workflow
+
+It gives you the smallest honest slice of the product.
