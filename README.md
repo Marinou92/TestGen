@@ -1,37 +1,16 @@
 # TestGen Lite
 
-See what is testable in a Next.js or React repo, then install a minimal Vitest foundation.
+Scan your repo, see what is testable, and install a minimal Vitest foundation.
 
-TestGen Lite is the public, free version of TestGen.
+**TestGen Lite is free on GitHub.**  
+It helps you understand your testing surface and get the runner in place.
 
-It helps you answer two questions fast:
+**TestGen Full is available on Gumroad for $29:**  
+[marinedep.gumroad.com/l/testgen](https://marinedep.gumroad.com/l/testgen)
 
-1. What in this repo is actually worth testing?
-2. How do I get a clean Vitest setup in place without overengineering it?
-
-It stops there on purpose.
-
-The paid version is the one that generates the actual tests.
-
-## What It Does
-
-- scans a repo and counts obvious test targets
-- surfaces the biggest testing gap in plain language
-- gives you a minimal Vitest config
-- gives you a basic setup file for RTL, `fetch`, and test env defaults
-
-## What It Does Not Do
-
-- generate tests
-- generate Server Action tests
-- generate API route tests
-- generate form component tests
-- add Playwright
-- add CI workflows
-- run coverage
-- ship the internal reference files and adapters from the full product
-
-That gap is the product boundary.
+The public version is intentionally limited.
+It shows you what is testable and gets Vitest running.
+It does **not** generate the actual tests.
 
 ## Quick Example
 
@@ -52,17 +31,15 @@ Existing tests: 0
 Largest gap: High-value application logic exists, but no test suite is present yet.
 ```
 
-That is enough to tell you whether the repo is:
+That alone tells you whether the repo is:
 
 - basically untested
-- already partially covered
+- partially covered
 - worth pushing into a full test-generation workflow
 
 ## Installation
 
-You can use this repo in three ways.
-
-### 1. Manual Use
+### Manual
 
 Clone the repo:
 
@@ -84,7 +61,7 @@ cp templates/vitest.config.ts /path/to/your/repo/vitest.config.ts
 cp templates/setup.ts /path/to/your/repo/setup.ts
 ```
 
-Install a minimal dependency set in your project.
+Install the minimum dependencies.
 
 For `npm`:
 
@@ -104,75 +81,182 @@ For `yarn`:
 yarn add -D vitest @testing-library/react @testing-library/jest-dom jsdom
 ```
 
-Then add scripts in `package.json`:
+Add scripts in `package.json`:
 
 ```json
 {
   "scripts": {
     "test": "vitest",
-    "test:run": "vitest --run"
+    "test:watch": "vitest",
+    "test:run": "vitest --run",
+    "test:coverage": "vitest --coverage"
   }
 }
 ```
 
-### 2. Use With Codex
+### With AI Coding Tools
 
-`SKILL.md` is included so this repo can be used directly as a Codex skill.
+This repo is not only for Codex.
 
-Typical prompt:
+`SKILL.md` is included for Codex-style skill workflows, but the scanner and templates are tool-agnostic.
 
-```text
-Use the TestGen Lite skill in this repo to scan my codebase and set up Vitest, but do not generate tests.
-```
+You can use it with:
 
-### 3. Use With Other AI Coding Tools
+- Codex
+- Claude Code
+- ChatGPT coding sessions
+- Cursor-style agent workflows
+- manual developer setup
 
-Even if your tool does not support `SKILL.md`, the repo is still usable.
-
-The scanner and templates are tool-agnostic.
-
-You can ask any coding agent something like:
+Example prompt:
 
 ```text
 Use this repository as guidance. Run scripts/scan_testable.py on my repo, summarize what is testable, then copy templates/vitest.config.ts and templates/setup.ts into my project without generating tests.
 ```
 
-This works with:
+## What TestGen Lite Includes
 
-- Codex
-- Claude Code
-- ChatGPT coding sessions
-- Cursor or similar agent workflows
-- manual developer use
+### TestGen Lite (free — GitHub)
 
-## Suggested Setup Flow
+| Feature | Description |
+| --- | --- |
+| Framework detection | Identifies Next.js, React, Vite, Express, and the router style when obvious from the codebase |
+| Stack detection | Detects Supabase, Prisma, NextAuth, Stripe, React Query, and Zustand from dependencies and imports |
+| Test runner detection | Checks whether Vitest, Jest, Playwright, or another runner is already present |
+| Scan of testable targets | Counts and categorizes Server Actions, API routes, utils, components, and middleware-like files |
+| Priority scoring | Labels target categories as high, medium, or low priority based on risk and structure |
+| Critical path detection | Flags likely auth, payment, and CRUD flows in the codebase |
+| Automatic Vitest setup | Ships a starter `vitest.config.ts` adapted for modern frontend repos |
+| Basic mock setup | Ships a starter `setup.ts` with `fetch`, RTL, and test env defaults |
+| Package script guidance | Gives you the scripts to add for `test`, `test:watch`, and `test:coverage` |
 
-1. Run the scanner.
-2. Check whether the repo has a meaningful amount of testable logic.
-3. Copy the Vitest templates.
-4. Install the minimum dependencies.
-5. Stop.
+## What TestGen Lite Does Not Include
 
-If you now want the tests written for you, that is the handoff point to the full product.
+TestGen Lite does **not**:
 
-## Lite vs Full Version
+- generate tests
+- generate Server Action tests
+- generate API route tests
+- generate component tests
+- add Playwright
+- add CI workflows
+- execute coverage and findings flows
+- ship the internal reference files and adapters from the full version
 
-| Capability | Lite | Full |
-| --- | --- | --- |
-| Scan what is testable | yes | yes |
-| Count actions, routes, components, tests | yes | yes |
-| Basic Vitest setup | yes | yes |
-| Generate app-specific tests | no | yes |
-| Generate Server Action tests | no | yes |
-| Generate API route tests | no | yes |
-| Generate logic-heavy component tests | no | yes |
-| Produce `TEST-AUDIT.md` | no | yes |
-| Produce `TEST_FINDINGS.md` | no | yes |
-| Coverage execution and findings | no | yes |
-| Mock adapters for common stacks | no | yes |
-| One-shot runner | no | yes |
-| Playwright patterns | no | yes |
-| CI templates | no | yes |
+That gap is deliberate.
+
+Lite gives you visibility and setup.
+Full gives you the actual QA acceleration.
+
+## TestGen Full ($29 — Gumroad)
+
+Get it here: [marinedep.gumroad.com/l/testgen](https://marinedep.gumroad.com/l/testgen)
+
+Everything in Lite, plus:
+
+### Audit
+
+| Feature | Description |
+| --- | --- |
+| `TEST-AUDIT.md` | Full audit of repo layout, package manager, test stack, and recommendations |
+| Top 5 scored targets | The 5 highest-value files or modules to test next, ranked with reasoning |
+| Boundary mapping | Identifies system boundaries such as external APIs, DB, auth, and required mocks |
+| Stack recommendations | Suggests the right testing stack for the project: Vitest vs Jest, MSW vs manual mocks, and more |
+
+### Generation — Utilities
+
+| Feature | Description |
+| --- | --- |
+| Pure function tests | Valid input, edge cases, invalid input, and return contract coverage |
+| Zod validator tests | Verifies schemas accept valid input and reject bad input cleanly |
+| Custom hook tests | Uses `renderHook` and checks state changes plus side effects |
+
+### Generation — Server Actions
+
+| Feature | Description |
+| --- | --- |
+| Auth checks | Verifies unauthenticated users are rejected and the mutation is not executed |
+| Input validation | Verifies invalid input returns a structured error instead of crashing |
+| Happy path | Verifies valid input plus auth executes the mutation and calls revalidation |
+| Error handling | Verifies DB or dependency failures are caught and returned cleanly |
+
+### Generation — API Route Handlers
+
+| Feature | Description |
+| --- | --- |
+| Unsupported method test | `GET` on a `POST`-only endpoint should return `405` |
+| Missing auth test | Request without session should return `401` |
+| Invalid input test | Malformed body should return `400` with a useful message |
+| Happy path test | Valid request should return `200` with the correct payload |
+| Error handling test | Server error should return `500` with a safe message and no stack trace |
+
+### Generation — Components
+
+| Feature | Description |
+| --- | --- |
+| Form tests | Submit, client validation, loading state, and error display |
+| Conditional rendering tests | Verifies loading, error, empty, and data branches |
+| Data-driven component tests | Verifies behavior with mocked data and boundary conditions |
+| Skip visual-only components | Avoids wasting time on components with no meaningful logic |
+
+### Generation — E2E (optional)
+
+| Feature | Description |
+| --- | --- |
+| Playwright config | Generates a `playwright.config.ts` adapted to the repo |
+| Auth flow | `signup -> login -> dashboard -> logout` |
+| CRUD flow | `create -> list -> edit -> delete` |
+| Payment flow | `checkout -> confirmation` with Stripe-aware mocking strategy |
+
+### Adapters
+
+| Feature | Description |
+| --- | --- |
+| App Router (Next.js 15+) | Mocks `cookies()`, `headers()`, `redirect()`, `notFound()`, and `revalidatePath()` |
+| Supabase | Mocks server and browser clients, `auth.getUser()`, and common query chains |
+| NextAuth | Mocks `getServerSession()` and `useSession()` |
+| Prisma | Mocks the Prisma client with reusable factory-style patterns |
+| Stripe | Mocks `constructEvent()` for webhooks and checkout session creation |
+| React Query | Ships patterns for `useQuery` and `useMutation` with a `QueryClientProvider` wrapper |
+| Zustand | Ships isolated store mocking patterns with `createStore()` |
+
+### Execution
+
+| Feature | Description |
+| --- | --- |
+| One-shot runner | `run_full_testgen.py` runs scan, audit, execute, and report in one command |
+| Vitest execution | Runs generated tests and captures the results |
+| Playwright execution | Runs E2E tests when requested |
+
+### Diagnostic
+
+| Feature | Description |
+| --- | --- |
+| `TEST_FINDINGS.md` | Post-execution report with structured results |
+| Pass/fail count | Counts what passed vs failed |
+| Probable product bugs | Flags tests that failed because the code likely has a real bug |
+| Infra and mock gaps | Identifies missing or misconfigured mocks and harness issues |
+| Coverage notes | Summarizes likely coverage by category: actions, routes, utils, components |
+
+### CI/CD
+
+| Feature | Description |
+| --- | --- |
+| GitHub Actions workflow | Ships a ready-to-use `test.yml` for PR validation |
+
+### References
+
+| File | Description |
+| --- | --- |
+| `unit-patterns.md` | Unit-testing patterns and framework-specific examples |
+| `integration-patterns.md` | API route, Server Action, and webhook testing patterns |
+| `e2e-patterns.md` | Playwright patterns for hydration, auth, and navigation |
+| `test-antipatterns.md` | Common AI-generated testing mistakes to avoid |
+
+## Lite vs Full, In One Sentence
+
+- **Lite** tells you what is testable and sets up Vitest.
+- **Full** writes the tests, runs them, and tells you what broke.
 
 ## Repo Structure
 
@@ -188,39 +272,16 @@ testgen/
 └── LICENSE
 ```
 
-## Who This Is For
-
-- developers who want quick visibility on testable surface area
-- teams that want a lightweight Vitest setup without buying into a full framework
-- buyers evaluating whether the full version would save them enough time
-
-## Positioning
-
-TestGen Lite is intentionally useful, but incomplete.
-
-It gives you:
-
-- visibility
-- setup
-- momentum
-
-It does not give you:
-
-- the real test-writing work
-- prioritized coverage expansion
-- bug-finding via generated failing tests
-- structured audit and findings outputs
-
-That is what the full version is for.
-
-## Why The Repo Is Minimal
-
-There is no fake “AI magic” here.
+## Why This Repo Is Minimal
 
 This repo does not pretend that:
 
 - setup equals coverage
 - counting files equals testing
-- a template equals a finished QA workflow
+- a config template equals a QA workflow
 
 It gives you the smallest honest slice of the product.
+
+If you want the real leverage, the full version is here:
+
+[marinedep.gumroad.com/l/testgen](https://marinedep.gumroad.com/l/testgen)
